@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xiyuanli.mapper.PatrolMapper">
+    <resultMap id="BaseResultMap" type="com.xiyuanli.entity.Patrol">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="date" property="date" jdbcType="DATE"/>
+        <result column="ename1" property="ename1" jdbcType="VARCHAR"/>
+        <result column="ename2" property="ename2" jdbcType="VARCHAR"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from patrol
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.xiyuanli.entity.Patrol">
+        insert into patrol ( date,ename1, ename2)
+        values (#{date,jdbcType=DATE},#{ename1,jdbcType=VARCHAR}, #{ename2,jdbcType=VARCHAR})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.xiyuanli.entity.Patrol">
+        update patrol
+        set date = #{date,jdbcType=DATE},
+        ename1 = #{ename1,jdbcType=VARCHAR},
+        ename2 = #{ename2,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select id, date, ename1, ename2
+        from patrol
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select id, date, ename1, ename2
+        from patrol
+    </select>
+
+    <select id="selectByTime" resultMap="BaseResultMap">
+        select *
+        from patrol
+        where date between #{0} and #{1}
+    </select>
+</mapper>

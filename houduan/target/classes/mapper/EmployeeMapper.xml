@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xiyuanli.mapper.EmployeeMapper">
+    <resultMap id="BaseResultMap" type="com.xiyuanli.entity.Employee">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="age" property="age" jdbcType="INTEGER"/>
+        <result column="sex" property="sex" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="work" property="work" jdbcType="VARCHAR"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from employee
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.xiyuanli.entity.Employee">
+        insert into employee (id, name, password,
+        age, sex, phone, work
+        )
+        values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+        #{age,jdbcType=INTEGER}, #{sex,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{work,jdbcType=VARCHAR}
+        )
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.xiyuanli.entity.Employee">
+        update employee
+        set name = #{name,jdbcType=VARCHAR},
+        password = #{password,jdbcType=VARCHAR},
+        age = #{age,jdbcType=INTEGER},
+        sex = #{sex,jdbcType=VARCHAR},
+        phone = #{phone,jdbcType=VARCHAR},
+        work = #{work,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="selectByName" resultMap="BaseResultMap">
+        select *
+        from employee
+        where name = #{name}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select id, name, password, age, sex, phone, work
+        from employee
+    </select>
+    <select id="select" resultMap="BaseResultMap">
+        select id, name, password, age, sex, phone, work
+        from employee
+        where name = #{name}
+    </select>
+
+    <select id="getNames" resultType="java.lang.String">
+        select name
+        from employee
+    </select>
+</mapper>

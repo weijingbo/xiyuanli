@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xiyuanli.mapper.HouseMapper">
+    <resultMap id="BaseResultMap" type="com.xiyuanli.entity.House">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="size" property="size" jdbcType="FLOAT"/>
+        <result column="nature" property="nature" jdbcType="VARCHAR"/>
+        <result column="number" property="number" jdbcType="INTEGER"/>
+        <result column="belong" property="belong" jdbcType="INTEGER"/>
+        <result column="owner" property="owner" jdbcType="VARCHAR"/>
+        <result column="uname" property="uname" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="HBMap" type="com.xiyuanli.entity.VO.HB">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="size" property="size" jdbcType="FLOAT"/>
+        <result column="nature" property="nature" jdbcType="VARCHAR"/>
+        <result column="number" property="number" jdbcType="INTEGER"/>
+        <result column="name" property="belong" jdbcType="VARCHAR"/>
+        <result column="owner" property="owner" jdbcType="VARCHAR"/>
+        <result column="uname" property="uname" jdbcType="VARCHAR"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from house
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.xiyuanli.entity.House">
+        insert into house (id, size, nature,
+        number, belong, owner,
+        uname)
+        values (#{id,jdbcType=INTEGER}, #{size,jdbcType=INTEGER}, #{nature,jdbcType=VARCHAR},
+        #{number,jdbcType=INTEGER}, #{belong,jdbcType=INTEGER}, #{owner,jdbcType=VARCHAR},
+        #{uname,jdbcType=VARCHAR})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.xiyuanli.entity.House">
+        update house
+        set size = #{size,jdbcType=INTEGER},
+        nature = #{nature,jdbcType=VARCHAR},
+        number = #{number,jdbcType=INTEGER},
+        belong = #{belong,jdbcType=INTEGER},
+        owner = #{owner,jdbcType=VARCHAR},
+        uname = #{uname,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select id, size, nature, number, belong, owner, uname
+        from house
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectAll" resultMap="HBMap">
+        select *
+        from house h
+        LEFT JOIN building b ON h.belong = b.id
+    </select>
+
+    <select id="selectHouseByBelong" resultMap="HBMap">
+        select *
+        from house h
+        LEFT JOIN building b ON h.belong = b.id
+        where b.id =#{id}
+    </select>
+
+    <select id="selectHouseByUname" resultMap="HBMap">
+        select *
+        from house h
+        LEFT JOIN building b ON h.belong = b.id
+        where h.uname =#{uname}
+    </select>
+
+    <select id="getNames" resultType="java.lang.String">
+        select name
+        from users
+    </select>
+</mapper>

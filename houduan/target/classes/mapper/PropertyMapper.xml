@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xiyuanli.mapper.PropertyMapper">
+    <resultMap id="BaseResultMap" type="com.xiyuanli.entity.Property">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="uid" property="uid" jdbcType="INTEGER"/>
+        <result column="uname" property="uname" jdbcType="VARCHAR"/>
+        <result column="price" property="price" jdbcType="INTEGER"/>
+        <result column="state" property="state" jdbcType="VARCHAR"/>
+        <result column="year" property="year" jdbcType="INTEGER"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from wuye
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.xiyuanli.entity.Property">
+        insert into wuye (id, uid, uname,
+        price, state, year)
+        values (#{id,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{uname,jdbcType=VARCHAR},
+        #{price,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}, #{year,jdbcType=INTEGER})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.xiyuanli.entity.Property">
+        update wuye
+        set uid = #{uid,jdbcType=INTEGER},
+        uname = #{uname,jdbcType=VARCHAR},
+        price = #{price,jdbcType=INTEGER},
+        state = #{state,jdbcType=INTEGER},
+        year = #{year,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select id, uid, uname, price, state, year
+        from wuye
+    </select>
+
+
+    <select id="selectByUid" resultMap="BaseResultMap">
+        select *
+        from wuye
+        where uid=#{0}
+    </select>
+
+    <update id="updateById">
+        update wuye
+        set state = #{1}
+        where id = #{0}
+    </update>
+
+    <select id="getByName" resultMap="BaseResultMap">
+        select *
+        from wuye
+        where uname = #{name}
+    </select>
+
+    <select id="getByYear" resultMap="BaseResultMap">
+        select *
+        from wuye
+        where year = #{year}
+    </select>
+
+    <select id="nopay" resultMap="BaseResultMap">
+        select *
+        from wuye
+        where state="未缴费"
+    </select>
+
+
+    <resultMap id="UrgeMap" type="com.xiyuanli.entity.VO.PropertyMessage">
+        <result column="uname" jdbcType="VARCHAR" property="name"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="year" jdbcType="INTEGER" property="year"/>
+        <result column="price" jdbcType="REAL" property="price"/>
+    </resultMap>
+    <select id="urge" resultMap="UrgeMap">
+        select * FROM
+        wuye RIGHT JOIN users
+        ON users.id=wuye.uid
+        WHERE state="未缴费"
+    </select>
+</mapper>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xiyuanli.mapper.UserMapper">
+    <resultMap id="BaseResultMap" type="com.xiyuanli.entity.User">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="work" property="work" jdbcType="VARCHAR"/>
+        <result column="stime" property="stime" jdbcType="DATE"/>
+        <result column="sex" property="sex" jdbcType="VARCHAR"/>
+        <result column="age" property="age" jdbcType="INTEGER"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from users
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.xiyuanli.entity.User">
+        insert into users (id, name, password,
+        phone, work, stime, sex,
+        age)
+        values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+        #{phone,jdbcType=VARCHAR}, #{work,jdbcType=VARCHAR}, #{stime,jdbcType=DATE}, #{sex,jdbcType=VARCHAR},
+        #{age,jdbcType=INTEGER})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.xiyuanli.entity.User">
+        update users
+        set name = #{name,jdbcType=VARCHAR},
+        password = #{password,jdbcType=VARCHAR},
+        phone = #{phone,jdbcType=VARCHAR},
+        work = #{work,jdbcType=VARCHAR},
+        stime = #{stime,jdbcType=DATE},
+        sex = #{sex,jdbcType=VARCHAR},
+        age = #{age,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select id, name, password, phone, work, stime, sex, age
+        from users
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select id, name, password, phone, work, stime, sex, age
+        from users
+    </select>
+
+
+    <select id="selectByName" resultMap="BaseResultMap">
+        select *
+        from users
+        where phone = #{name}
+    </select>
+
+    <select id="getUser" resultMap="BaseResultMap">
+        select *
+        from users
+        where name =#{name}
+    </select>
+
+    <select id="selectByBid" resultMap="BaseResultMap">
+        select *
+        from users
+    </select>
+</mapper>

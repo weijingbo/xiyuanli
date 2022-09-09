@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiyuanli.mapper.WrongMapper">
+    <resultMap id="BaseResultMap" type="com.xiyuanli.entity.Wrong">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="uname" jdbcType="VARCHAR" property="uname"/>
+        <result column="bname" jdbcType="VARCHAR" property="bname"/>
+        <result column="number" jdbcType="INTEGER" property="number"/>
+        <result column="detail" jdbcType="VARCHAR" property="detail"/>
+        <result column="ename" jdbcType="VARCHAR" property="ename"/>
+        <result column="sdate" jdbcType="DATE" property="sdate"/>
+        <result column="state" jdbcType="INTEGER" property="state"/>
+        <result column="evaluate" jdbcType="VARCHAR" property="evaluate"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from wrong
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.xiyuanli.entity.Wrong">
+        insert into wrong (id, uname, bname, number, detail, ename, sdate, state,evaluate)
+        values (#{id,jdbcType=INTEGER}, #{uname,jdbcType=VARCHAR}, #{bname,jdbcType=VARCHAR},
+        #{number,jdbcType=INTEGER}, #{detail,jdbcType=VARCHAR}, #{ename,jdbcType=VARCHAR},
+        #{sdate,jdbcType=DATE}, #{state,jdbcType=INTEGER},#{evaluate,jdbcType=VARCHAR})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.xiyuanli.entity.Wrong">
+        update wrong
+        <set>uname = #{uname,jdbcType=VARCHAR},
+            bname = #{bname,jdbcType=VARCHAR},
+            number = #{number,jdbcType=INTEGER},
+            detail = #{detail,jdbcType=VARCHAR},
+            ename = #{ename,jdbcType=VARCHAR},
+            sdate = #{sdate,jdbcType=DATE},
+            state = #{state,jdbcType=INTEGER},
+            <if test="evaluate!=null">
+                evaluate = #{evaluate,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select *
+        from wrong
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select *
+        from wrong
+    </select>
+
+    <select id="selectByName" resultMap="BaseResultMap">
+        select *
+        from wrong
+        where uname = #{uname}
+    </select>
+</mapper>

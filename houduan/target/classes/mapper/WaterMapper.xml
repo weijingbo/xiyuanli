@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiyuanli.mapper.WaterMapper">
+    <resultMap id="BaseResultMap" type="com.xiyuanli.entity.Water">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="date" jdbcType="VARCHAR" property="date"/>
+        <result column="uname" jdbcType="VARCHAR" property="uname"/>
+        <result column="number" jdbcType="REAL" property="number"/>
+        <result column="price" jdbcType="REAL" property="price"/>
+        <result column="flag" jdbcType="VARCHAR" property="flag"/>
+        <result column="uid" jdbcType="INTEGER" property="uid"/>
+
+    </resultMap>
+
+    <resultMap id="waterMap" type="com.xiyuanli.entity.VO.WaterShell">
+        <result column="uid" jdbcType="INTEGER" property="uid"/>
+        <result column="uname" jdbcType="VARCHAR" property="uname"/>
+        <result column="bname" jdbcType="VARCHAR" property="bname"/>
+        <result column="number" jdbcType="INTEGER" property="number"/>
+        <result column="size" jdbcType="REAL" property="size"/>
+    </resultMap>
+
+    <resultMap id="UrgeMap" type="com.xiyuanli.entity.VO.WaterMessage">
+        <result column="uname" jdbcType="VARCHAR" property="name"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="date" jdbcType="VARCHAR" property="date"/>
+        <result column="price" jdbcType="REAL" property="price"/>
+    </resultMap>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from water
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.xiyuanli.entity.Water">
+        insert into water (id, date, uid, uname,
+        number, price, flag)
+        values (#{id,jdbcType=INTEGER}, #{date,jdbcType=VARCHAR},#{uid,jdbcType=INTEGER}, #{uname,jdbcType=VARCHAR},
+        #{number,jdbcType=REAL}, #{price,jdbcType=REAL}, #{flag,jdbcType=VARCHAR})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.xiyuanli.entity.Water">
+        update water
+        set date = #{date,jdbcType=VARCHAR},
+        uname = #{uname,jdbcType=VARCHAR},
+        number = #{number,jdbcType=REAL},
+        price = #{price,jdbcType=REAL},
+        flag = #{flag,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select id, date, uname, number, price, flag
+        from water
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        select *
+        from water
+    </select>
+    <select id="getWaters" resultMap="BaseResultMap">
+        select *
+        from water
+        where uid = #{uid}
+    </select>
+
+    <select id="selectByDate" resultMap="BaseResultMap">
+        select *
+        from water
+        where date= #{date}
+    </select>
+
+    <update id="PayWater">
+        update water
+        set flag=#{1}
+        where id =#{0}
+    </update>
+    <select id="getWaterByName" resultMap="BaseResultMap">
+        select *
+        from water
+        where uname = #{uname}
+    </select>
+
+
+    <select id="waterShell" resultMap="waterMap">
+        select u.id uid,u.name uname,h.number,h.size,b.`name` bname
+        from users u
+        LEFT JOIN house h on u.`name`=h.uname
+        LEFT JOIN building b on h.belong = b.id
+    </select>
+
+    <select id="check" resultType="java.lang.String">
+        select DISTINCT date
+        from water
+    </select>
+
+    <select id="nopay" resultMap="BaseResultMap">
+        select *
+        from water
+        where flag="未缴费"
+    </select>
+
+    <select id="urge" resultMap="UrgeMap">
+        select * FROM
+        water RIGHT JOIN users
+        ON users.id=water.uid
+        WHERE flag="未缴费"
+    </select>
+
+</mapper>

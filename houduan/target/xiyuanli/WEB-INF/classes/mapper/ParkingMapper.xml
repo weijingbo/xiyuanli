@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xiyuanli.mapper.ParkingMapper">
+    <resultMap id="BaseResultMap" type="com.xiyuanli.entity.Parking">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="uname" property="uname" jdbcType="VARCHAR"/>
+        <result column="number" property="number" jdbcType="VARCHAR"/>
+        <result column="detail" property="detail" jdbcType="VARCHAR"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from parking
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.xiyuanli.entity.Parking">
+        insert into parking (id, uname, number,
+        detail)
+        values (#{id,jdbcType=INTEGER}, #{uname,jdbcType=VARCHAR}, #{number,jdbcType=VARCHAR},
+        #{detail,jdbcType=VARCHAR})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.xiyuanli.entity.Parking">
+        update parking
+        set uname = #{uname,jdbcType=VARCHAR},
+        number = #{number,jdbcType=VARCHAR},
+        detail = #{detail,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select id, uname, number, detail
+        from parking
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select id, uname, number, detail
+        from parking
+    </select>
+
+    <select id="selectByUname" resultMap="BaseResultMap">
+        select *
+        from parking
+        where uname = #{name}
+    </select>
+</mapper>
